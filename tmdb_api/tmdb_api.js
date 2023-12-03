@@ -1,10 +1,14 @@
 
 
-const API_KEY = import.meta.env.VITE_REACT_APP_API_KEY;
-const API_URL = import.meta.env.VITE_GENRES_API_URL;
+
+const path = require("path")
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
+
+const API_KEY = process.env.VITE_REACT_APP_API_KEY;
+const API_URL = process.env.VITE_GENRES_API_URL;
 
 
-export const getGenreMovies = async(page,genreId) => {
+const getGenreMovies = async(page,genreId) => {
 
   try {
     const response = await fetch(`${API_URL}?inc_video=false&language=en-US&page=${page}&with_genres=${genreId}`,
@@ -27,7 +31,7 @@ export const getGenreMovies = async(page,genreId) => {
 
 
 
-export const getMovies = async(page,category) => {
+const getMovies = async(page,category) => {
   const API_URL = `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=${page}`
 
   try {
@@ -52,7 +56,7 @@ export const getMovies = async(page,category) => {
 }
 
 
-export const getShows = async(page) => {
+const getShows = async(page) => {
 
   try {
     const response = await fetch(`https://api.themoviedb.org/3/tv/top_rated?language=en-US&page=${page}`, {
@@ -76,7 +80,7 @@ export const getShows = async(page) => {
 }
 
 
-export const getShowDetails = async(showId) => {
+const getShowDetails = async(showId) => {
   try {
     const response  = await fetch(`https://api.themoviedb.org/3/tv/${showId}?language=en-US`, {
     method: 'GET', 
@@ -89,7 +93,7 @@ export const getShowDetails = async(showId) => {
     throw new Error (`Failed to fetch Show Details : ${response.status}`)
   }
 
-  const DATA = response.json()
+  const DATA = await response.json()
   return DATA
   
   } catch (error) {
@@ -97,7 +101,7 @@ export const getShowDetails = async(showId) => {
   }
 }
 
-export const getMovieSearchData = async(entityName) => {
+const getMovieSearchData = async(entityName) => {
 
 
   try {
@@ -129,7 +133,7 @@ export const getMovieSearchData = async(entityName) => {
 }
 
 
-export const getShowSearchData = async(entityName) => {
+const getShowSearchData = async(entityName) => {
 
 
   try {
@@ -157,7 +161,7 @@ export const getShowSearchData = async(entityName) => {
   }
 }
 
-export const getMovieReviews = async(movieId) => {
+const getMovieReviews = async(movieId) => {
 
   try {
     const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/reviews?language=en-US&page=1`, {
@@ -181,7 +185,7 @@ export const getMovieReviews = async(movieId) => {
 }
 
 
-export const getShowReviews = async(showId) => {
+const getShowReviews = async(showId) => {
 
   try {
   const response = await fetch(`https://api.themoviedb.org/3/tv/${showId}/reviews?language=en-US&page=1`,{
@@ -207,7 +211,7 @@ export const getShowReviews = async(showId) => {
 
 }
 
-export const getTrailer = async(movieId) => {
+const getTrailer = async(movieId) => {
 
   try {
 
@@ -230,7 +234,7 @@ export const getTrailer = async(movieId) => {
 
 }
 
-export const fetchMovieData = async(movieId) => {
+const fetchMovieData = async(movieId) => {
 
       try {
         const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?language=en-US`, {
@@ -248,3 +252,5 @@ export const fetchMovieData = async(movieId) => {
       }
 
 }
+
+module.exports = {getShows,getMovies,getGenreMovies,getMovieReviews,getShowReviews,getShowDetails,fetchMovieData}
